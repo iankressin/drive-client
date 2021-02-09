@@ -1,0 +1,23 @@
+[
+  {
+    "name": ".gitignore",
+    "extension": "",
+    "name_extension": ".gitignore",
+    "size": 8,
+    "hash": ""
+  },
+  {
+    "name": "Cargo",
+    "extension": "lock",
+    "name_extension": "Cargo.lock",
+    "size": 11700,
+    "hash": ""
+  },
+  {
+    "name": "Cargo",
+    "extension": "toml",
+    "name_extension": "Cargo.toml",
+    "size": 381,
+    "hash": ""
+  }
+]
