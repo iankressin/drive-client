@@ -1,8 +1,10 @@
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::fs::{ self, File };
+use std::io;
 use std::io::prelude::*;
 use sha1::{Sha1, Digest};
+
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Metadata {
@@ -30,9 +32,12 @@ impl Ui {
     }
 }
 
-fn hash_files(path: &String) {
-    let mut file = File::open(path).unwrap();
+fn hash_files(path: &str, buf: &mut [u8]) {
+    let mut file = fs::File::open(&path).unwrap();
     let mut hasher = Sha1::new();
+    let n = io::copy(&mut file, &mut hasher).unwrap();
+
+    buf.copy_from_slice(&hasher.finalize())
 }
 
 // TODO: Fix known proble with filenames that contains multiple dots
@@ -74,13 +79,16 @@ fn get_folder_metada() -> std::io::Result<Vec<Metadata>> {
                     }
                 };
 
+                let mut buf = [0u8; 20];
+                hash_files(&"./src/ui.rs", &mut buf);
+
                 if !metadata.is_dir() {
                     meta.push(Metadata {
                         name_extension,
                         name,
                         extension,
                         size: metadata.len(),
-                        hash: "".to_string(),
+                        hash: hex::encode(buf),
                     })
                 }
             }

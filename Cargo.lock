@@ -64,7 +64,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c894b35cb1bd1f17e2d4227416806d386ad1b31d23359472163389d637d0dbd"
 dependencies = [
  "bytes",
- "hex",
+ "hex 0.4.2",
  "thiserror",
 ]
 
@@ -74,6 +74,7 @@ version = "0.1.0"
 dependencies = [
  "bytes",
  "dns-message-parser",
+ "hex 0.3.2",
  "net2",
  "pnet",
  "regex",
@@ -97,6 +98,12 @@ name = "glob"
 version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8be18de09a56b60ed0edf84bc9df007e30040691af7acd1c41874faac5895bfb"
+
+[[package]]
+name = "hex"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "805026a5d0141ffc30abb3be3173848ad46a1b1664fe632428479619a3644d77"
 
 [[package]]
 name = "hex"
