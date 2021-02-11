@@ -1,10 +1,11 @@
+// TODO: Serve files
+// TODO:
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::fs::{ self, File };
+use sha1::{Digest, Sha1};
+use std::fs::{self, File};
 use std::io;
 use std::io::prelude::*;
-use sha1::{Sha1, Digest};
-
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Metadata {
@@ -30,6 +31,10 @@ impl Ui {
 
         Ok(())
     }
+
+    // pub fn serve() -> Result<(), std::io::Error> {
+    //     println!("Serving files");
+    // }
 }
 
 fn hash_files(path: &str, buf: &mut [u8]) {
@@ -60,14 +65,12 @@ fn get_file_name_and_extension(file: &String) -> (String, String) {
     }
 }
 
-// TODO: Hash files
 // TODO: Ugly code as hell
 fn get_folder_metada() -> std::io::Result<Vec<Metadata>> {
     let mut meta = Vec::new();
     for entry in fs::read_dir("./")? {
         if let Ok(entry) = entry {
             if let Ok(metadata) = entry.metadata() {
-
                 let (name, extension) =
                     get_file_name_and_extension(&entry.file_name().to_str().unwrap().to_string());
 
