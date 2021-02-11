@@ -1,5 +1,6 @@
 use crate::dns_builder::DnsBuilder;
 use bytes::Bytes;
+use dns_message_parser::rr::{A, RR};
 use dns_message_parser::Dns;
 use net2::UdpBuilder;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr, UdpSocket};
@@ -7,7 +8,7 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr, UdpSocket};
 pub struct UdpClient;
 
 impl UdpClient {
-    pub fn query() {
+    pub fn query() -> Result<(Ipv4Addr), std::io::Error> {
         // TODO: Make it static
         let dest = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(224, 0, 0, 251)), 5353);
         let socket = UdpClient::get_upd_socket().unwrap();
@@ -22,16 +23,23 @@ impl UdpClient {
 
         match listener.recv(&mut buf) {
             Ok(received) => {
-                println!("received {} bytes {:?}", received, &buf[..received]);
-                let packet = Bytes::copy_from_slice(&buf[..received]);
-                let dns = Dns::decode(packet).unwrap();
-
-                println!("{:?}", dns);
+                let server_addr = UdpClient::get_server_addr(&buf[..received]).unwrap();
+                Ok((server_addr))
             }
-            Err(e) => println!("recv function failed: {:?}", e),
+            Err(e) => Err(e),
         }
+    }
 
-        println!("Received the packet");
+    fn get_server_addr(dns_response: &[u8]) -> Result<Ipv4Addr, ()> {
+        let packet = Bytes::copy_from_slice(dns_response);
+        let Dns { answers, .. } = Dns::decode(packet).unwrap();
+        // let answer =
+        // let RR::A(a_record) = answers.first().expect("Could not retrieve ip from dns packet");
+
+        match answers.first().unwrap() {
+            RR::A(A { ipv4_addr, .. }) => Ok(ipv4_addr.clone()),
+            _ => Err(()),
+        }
     }
 
     fn get_upd_socket() -> Result<UdpSocket, std::io::Error> {
