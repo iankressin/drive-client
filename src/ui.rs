@@ -44,7 +44,6 @@ fn hash_files(path: &str, buf: &mut [u8]) {
 
     buf.copy_from_slice(&hasher.finalize())
 }
-
 // TODO: Fix known proble with filenames that contains multiple dots
 // Eg: index.spec.js
 fn get_file_name_and_extension(file: &String) -> (String, String) {
@@ -82,10 +81,10 @@ fn get_folder_metada() -> std::io::Result<Vec<Metadata>> {
                     }
                 };
 
-                let mut buf = [0u8; 20];
-                hash_files(&"./src/ui.rs", &mut buf);
-
                 if !metadata.is_dir() {
+                    let mut buf = [0u8; 20];
+                    println!("File entry ==>>> {:?}", entry);
+                    hash_files(&entry.path().to_str().unwrap(), &mut buf);
                     meta.push(Metadata {
                         name_extension,
                         name,
