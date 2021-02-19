@@ -7,5 +7,6 @@ mod ui;
 fn main() {
     // ui::Ui::init().unwrap();
     let server_ip = udp_client::UdpClient::query().unwrap();
-    tcp_client::TcpClient::conn_handler(server_ip);
+    let client = tcp_client::TcpClient::new(server_ip); 
+    client.conn_handler();
 }
