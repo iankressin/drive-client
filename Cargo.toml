@@ -1,7 +1,7 @@
 [package]
 name = "drive-client"
 version = "0.1.0"
-authors = ["Ian <ianguimaraes31@gmail.com>"]
+authors = ["Ian <ianguimaraes31@gmail.com>", "Lorenzo <maturanolorenzo@gmail.com>"]
 edition = "2018"
 license="MIT"
 description="Exchange files locally using mDNS"
