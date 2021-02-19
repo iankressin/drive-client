@@ -4,23 +4,26 @@ use std::io::prelude::*;
 use std::net::{Ipv4Addr, SocketAddr, TcpStream};
 use std::sync::Arc;
 use std::thread;
+use crate::types::Metadata;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Metadata {
-    name: String,
-    extension: String,
-    name_extension: String,
-    size: u32,
-    hash: String,
-}
+// #[derive(Serialize, Deserialize, Debug)]
+// pub struct Metadata {
+//     name: String,
+//     extension: String,
+//     name_extension: String,
+//     size: u32,
+//     hash: String,
+// }
 
 pub struct TcpClient {
     socket_addr: SocketAddr,
+    meta_list: Vec<Metadata>,
 }
 
 impl TcpClient {
-    pub fn new(ip_addr: Ipv4Addr) -> TcpClient {
+    pub fn new(ip_addr: Ipv4Addr, meta_list: Vec<Metadata>) -> TcpClient {
         TcpClient {
+            meta_list,
             socket_addr: format!("{}:7878", ip_addr).parse().unwrap(),
         }
     }

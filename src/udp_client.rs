@@ -24,7 +24,7 @@ impl UdpClient {
         match listener.recv(&mut buf) {
             Ok(received) => {
                 let server_addr = UdpClient::get_server_addr(&buf[..received]).unwrap();
-                Ok((server_addr))
+                Ok(server_addr)
             }
             Err(e) => Err(e),
         }

@@ -31,10 +31,6 @@ impl Ui {
 
         Ok(())
     }
-
-    // pub fn serve() -> Result<(), std::io::Error> {
-    //     println!("Serving files");
-    // }
 }
 
 fn hash_files(path: &str, buf: &mut [u8]) {
