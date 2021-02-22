@@ -35,7 +35,7 @@ impl TcpClient {
 
     pub fn handshake(&self) -> Result<Vec<Metadata>, std::io::Error> {
         let mut stream = &self.get_stream();
-        let mut packet = fs::read(&"./.drive/metadata.json").unwrap();
+        // let mut packet = fs::read(&"./.drive/metadata.json").unwrap();
         packet.insert(0, 0u8);
 
         stream.write(&packet).unwrap();
