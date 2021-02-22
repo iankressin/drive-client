@@ -31,6 +31,7 @@ impl TcpClient {
         let mut packet: Vec<u8> = packet.as_bytes().iter()
             .cloned()
             .collect();
+
         packet.insert(0, 0u8);
 
         stream.write(&packet).unwrap();
