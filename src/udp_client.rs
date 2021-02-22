@@ -8,7 +8,7 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr, UdpSocket};
 pub struct UdpClient;
 
 impl UdpClient {
-    pub fn query() -> Result<(Ipv4Addr), std::io::Error> {
+    pub fn query() -> Result<Ipv4Addr, std::io::Error> {
         // TODO: Make it static
         let dest = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(224, 0, 0, 251)), 5353);
         let socket = UdpClient::get_upd_socket().unwrap();
