@@ -1,10 +1,8 @@
-use serde::{Deserialize, Serialize};
+use crate::types::Metadata;
 use std::fs;
 use std::io::prelude::*;
 use std::net::{Ipv4Addr, SocketAddr, TcpStream};
-use std::sync::Arc;
 use std::thread;
-use crate::types::Metadata;
 
 pub struct TcpClient {
     socket_addr: SocketAddr,
@@ -28,9 +26,7 @@ impl TcpClient {
         let mut stream = &self.get_stream();
         // let mut packet = fs::read(&"./.drive/metadata.json").unwrap();
         let packet = serde_json::to_string(&self.meta_list).unwrap();
-        let mut packet: Vec<u8> = packet.as_bytes().iter()
-            .cloned()
-            .collect();
+        let mut packet: Vec<u8> = packet.as_bytes().iter().cloned().collect();
 
         packet.insert(0, 0u8);
 
@@ -49,23 +45,21 @@ impl TcpClient {
     }
 
     pub fn send_files(&self, requested_files: &Vec<Metadata>) {
+        println!("Requested by the server: {:?}", requested_files);
         for file in requested_files {
             let mut stream = self.get_stream();
             let path = format!("./{}", &file.name_extension);
 
-            // Created outside of the thread so requested_files 
+            // Created outside of the thread so requested_files
             // does not need to have a static lifetime
             let mut packet = TcpClient::get_packet_header(&file);
 
-            let send = thread::spawn(move || {
-
-                match fs::read(&path) {
-                    Ok(mut bytes) => {
-                        packet.append(&mut bytes);
-                        stream.write(&packet).unwrap();
-                    },
-                    Err(error) => println!("{}", error)
+            let send = thread::spawn(move || match fs::read(&path) {
+                Ok(mut bytes) => {
+                    packet.append(&mut bytes);
+                    stream.write(&packet).unwrap();
                 }
+                Err(error) => println!("{}", error),
             });
 
             send.join().unwrap();

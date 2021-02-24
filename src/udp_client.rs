@@ -33,9 +33,6 @@ impl UdpClient {
     fn get_server_addr(dns_response: &[u8]) -> Result<Ipv4Addr, ()> {
         let packet = Bytes::copy_from_slice(dns_response);
         let Dns { answers, .. } = Dns::decode(packet).unwrap();
-        // let answer =
-        // let RR::A(a_record) = answers.first().expect("Could not retrieve ip from dns packet");
-
         match answers.first().unwrap() {
             RR::A(A { ipv4_addr, .. }) => Ok(ipv4_addr.clone()),
             _ => Err(()),

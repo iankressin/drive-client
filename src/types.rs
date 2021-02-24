@@ -8,3 +8,15 @@ pub struct Metadata {
     pub size: u32,
     pub hash: String,
 }
+
+impl Clone for Metadata {
+    fn clone(&self) -> Self {
+        Metadata {
+            name: self.name.clone(),
+            extension: self.extension.clone(),
+            name_extension: self.name_extension.clone(),
+            size: self.size.clone(),
+            hash: self.name.clone(),
+        }
+    }
+}
