@@ -16,7 +16,7 @@ impl Clone for Metadata {
             extension: self.extension.clone(),
             name_extension: self.name_extension.clone(),
             size: self.size.clone(),
-            hash: self.name.clone(),
+            hash: self.hash.clone(),
         }
     }
 }
