@@ -1,6 +1,6 @@
 [package]
 name = "drive-client"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Ian <ianguimaraes31@gmail.com>", "Lorenzo <maturanolorenzo@gmail.com>"]
 edition = "2018"
 license="MIT"
