@@ -1,5 +1,5 @@
 use crate::tcp_client::TcpClient;
-use crate::types::Metadata;
+use hana_types::Metadata;
 use crate::udp_client::UdpClient;
 use serde::Deserialize;
 

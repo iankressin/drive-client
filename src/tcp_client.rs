@@ -1,4 +1,5 @@
-use crate::types::Metadata;
+use serde::{Deserialize, Serialize};
+use hana_types::{Metadata};
 use std::fs;
 use std::io::prelude::*;
 use std::net::{Ipv4Addr, SocketAddr, TcpStream};
