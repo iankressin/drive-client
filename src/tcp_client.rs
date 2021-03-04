@@ -5,14 +5,16 @@ use std::io::prelude::*;
 use std::net::{Ipv4Addr, SocketAddr, TcpStream};
 use std::thread;
 
-pub struct TcpClient {
+pub struct TcpClient<'a> {
+    path: &'a str,
     socket_addr: SocketAddr,
     meta_list: Vec<Metadata>,
 }
 
-impl TcpClient {
-    pub fn new(ip_addr: Ipv4Addr, meta_list: Vec<Metadata>) -> TcpClient {
+impl<'b> TcpClient<'b> {
+    pub fn new(ip_addr: Ipv4Addr, meta_list: Vec<Metadata>, path: &'b str) -> TcpClient<'b> {
         TcpClient {
+            path,
             meta_list,
             socket_addr: format!("{}:7878", ip_addr).parse().unwrap(),
         }
@@ -25,7 +27,6 @@ impl TcpClient {
 
     pub fn handshake(&self) -> Result<Vec<Metadata>, std::io::Error> {
         let mut stream = &self.get_stream();
-        // let mut packet = fs::read(&"./.drive/metadata.json").unwrap();
         let packet = serde_json::to_string(&self.meta_list).unwrap();
         let mut packet: Vec<u8> = packet.as_bytes().iter().cloned().collect();
 
@@ -49,7 +50,7 @@ impl TcpClient {
         println!("Requested by the server: {:?}", requested_files);
         for file in requested_files {
             let mut stream = self.get_stream();
-            let path = format!("./{}", &file.name_extension);
+            let path = format!("{}/{}", self.path, &file.name_extension);
 
             // Created outside of the thread so requested_files
             // does not need to have a static lifetime
