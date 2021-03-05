@@ -66,6 +66,9 @@ impl<'b> TcpClient<'b> {
 
             send.join().unwrap();
         }
+
+        let mut stream = self.get_stream();
+        stream.write(&[2u8]).unwrap();
     }
 
     fn get_stream(&self) -> TcpStream {
