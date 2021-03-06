@@ -1,6 +1,6 @@
 mod dns_builder;
 mod tcp_client;
 mod udp_client;
+mod hana_client;
 
-pub mod drive_client;
-pub mod types;
+pub use hana_client::HanaClient;

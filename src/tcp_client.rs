@@ -1,4 +1,3 @@
-use serde::{Deserialize, Serialize};
 use hana_types::{Metadata};
 use std::fs;
 use std::io::prelude::*;
